@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Theos
       run: |
@@ -26,13 +26,13 @@ jobs:
         make package FINALPACKAGE=1
         
     - name: Upload DEB Package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Tweak-DEB
         path: packages/*.deb
 
     - name: Upload Dylib File
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Tweak-Dylib
         path: .theos/obj/*/arm64/*.dylib
