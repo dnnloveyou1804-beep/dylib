@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import "menu.h"
 
 // --- RAINBOW LABEL ---
 @interface DucNamRainbowLabel : UILabel
@@ -69,16 +70,14 @@
             self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
         
-        // Find bundle (Support both rootless/rootful Jailbreak and ESign Sideloading)
-        NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"DucNamMenu" ofType:@"bundle"]];
-        if (!bundle) bundle = [NSBundle bundleWithPath:@"/Library/Application Support/DucNamMenu.bundle"];
+        NSString *base64String = GetBase64HTMLMenu();
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+        NSString *htmlString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
         
-        NSString *htmlPath = [bundle pathForResource:@"index" ofType:@"html"];
-        if (htmlPath) {
-            NSURL *url = [NSURL fileURLWithPath:htmlPath];
-            [self.webView loadFileURL:url allowingReadAccessToURL:[url URLByDeletingLastPathComponent]];
+        if (htmlString) {
+            [self.webView loadHTMLString:htmlString baseURL:nil];
         } else {
-            [self.webView loadHTMLString:@"<html><body style='color:white; background:black;'><h1>Menu not found!</h1><p>Please check DucNamMenu.bundle</p></body></html>" baseURL:nil];
+            [self.webView loadHTMLString:@"<html><body style='color:white; background:black;'><h1>Error decoding Menu!</h1></body></html>" baseURL:nil];
         }
         
         // Add Close Button (in case HTML doesn't have one)
