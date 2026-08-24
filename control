@@ -1,0 +1,9 @@
+Package: com.ducnam.homebar
+Name: DucNamHomeBar
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Adds Copyright DucNamTweaks Zalo 0395109314 near the home bar.
+Maintainer: DucNam
+Author: DucNam
+Section: Tweaks

@@ -1,0 +1,38 @@
+name: Build iOS Tweak
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Theos
+      run: |
+        git clone --recursive https://github.com/theos/theos.git $GITHUB_WORKSPACE/theos
+        curl -LO https://github.com/theos/sdks/archive/master.zip
+        unzip master.zip
+        mv sdks-master/* $GITHUB_WORKSPACE/theos/sdks/
+        rm -rf master.zip sdks-master
+
+    - name: Build Package
+      run: |
+        export THEOS=$GITHUB_WORKSPACE/theos
+        make package FINALPACKAGE=1
+        
+    - name: Upload DEB Package
+      uses: actions/upload-artifact@v3
+      with:
+        name: Tweak-DEB
+        path: packages/*.deb
+
+    - name: Upload Dylib File
+      uses: actions/upload-artifact@v3
+      with:
+        name: Tweak-Dylib
+        path: .theos/obj/*/arm64/*.dylib
