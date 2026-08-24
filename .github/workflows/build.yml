@@ -20,6 +20,9 @@ jobs:
         mv sdks-master/* $GITHUB_WORKSPACE/theos/sdks/
         rm -rf master.zip sdks-master
 
+    - name: Install dependencies
+      run: brew install ldid
+
     - name: Build Package
       run: |
         export THEOS=$GITHUB_WORKSPACE/theos
