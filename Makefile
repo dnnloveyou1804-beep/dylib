@@ -7,6 +7,6 @@ TWEAK_NAME = DucNamHomeBar
 
 DucNamHomeBar_FILES = Tweak.x
 DucNamHomeBar_CFLAGS = -fobjc-arc
-DucNamHomeBar_FRAMEWORKS = UIKit WebKit
+DucNamHomeBar_FRAMEWORKS = UIKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
